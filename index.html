@@ -1,0 +1,70 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body style="background:#EEE;">
+<div class="mdl-card mdl-shadow--2dp" style="margin:auto;margin-top: 32px;">
+ 	<div class="mdl-card__title mdl-card--expand">
+ 		<h2 class="mdl-card__title-text">愛と平和の割り勘アプリ</h2>
+ 	</div>
+ 	<div class="mdl-card__supporting-text">
+		<div class="mdl-textfield mdl-js-textfield">
+			<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="pay">
+			<label class="mdl-textfield__label" for="pay">金額</label>
+			<span class="mdl-textfield__error">Input is not a number!</span>
+		</div>
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="calc();">計算</button>
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="alert('11 = 30%\n12 = 20% + 端数/2\n13 = 20%\n14 = 10% + 端数/2\n15 = 10%')">内訳</button>
+		<hr>
+		つねやま : ¥ <span id="tsune"></span><br />
+		いんなみ : ¥ <span id="hayaki"></span><br />
+		なるとし : ¥ <span id="naru"></span><br />
+		たれわき : ¥ <span id="kao"></span><br />
+		きんみり : ¥ <span id="miri"></span><br />
+		ねむみん : ¥ <span id="nemumin"></span><br />
+		<hr>
+		debug : ¥ <span id="total"></span><br />
+		払ってくれた人への手数料 : ¥ <span id="tip"></span>		
+	</div>
+</div>
+	<script>
+	let calc = function(){
+		let pay = $('#pay').val();
+		if(pay < 1000){
+			alert('そんぐらい割り勘しないで払え！');
+			return;
+		}
+		//端数
+		let frac = 0;
+		//tsune
+		let tsune = pay * 0.3;
+		tsune = Math.floor(tsune/100) * 100;
+		$('#tsune').html(tsune);
+		//naru
+		let hayaki = pay * 0.2;
+		hayaki = Math.floor(hayaki/100) * 100;
+		$('#naru').html(hayaki);
+		//15
+		let students = pay * 0.1
+		students = Math.floor(students/100) * 100;
+		$('#miri').html(students);
+		$('#nemumin').html(students);
+		//kao
+		frac = pay - tsune - hayaki - hayaki - students - students - students;
+		frac = frac/2;
+		$('#kao').html(Math.ceil(students + frac));
+		//hayaki
+		$('#hayaki').html(Math.ceil(hayaki + frac));
+		//debug
+		$('#total').html(tsune + hayaki + hayaki + students + students + students + frac + frac);
+		let total = tsune + Math.ceil(hayaki + frac) + hayaki + Math.ceil(students + frac) + students + students;
+		$('#tip').html(total - pay);
+	}
+	</script>
+</body>
+</html>
